@@ -1,0 +1,116 @@
+<?php
+use Magento\Framework\App\Action\Action;
+    $accessories = $this->getAllAccessories();
+    $listBlock = $this->getProductListBlock();
+	if($accessories):
+		$accessories = $accessories->getData();
+		$accessories = $accessories[0];
+		$_products1 = $this->loadProductsBySku($accessories['products_1']);
+		$_products2 = $this->loadProductsBySku($accessories['products_2']);
+		$_products3 = $this->loadProductsBySku($accessories['products_3']);
+	?>
+<?php if($_products1->count() || $_products2->count() || $_products3->count()): ?>
+<div class="accessories-block">
+
+    <h2 class="col-md-12 acc-title"><span>Addons & Accessories</span></h2>
+    <div class="section-div row">
+        <?php if($_products1->count()): ?>
+        <section class="first-block col-sm-4">
+            <?php if(!empty($accessories['title_1'])): ?>
+            <h3><?php echo $accessories['title_1']; ?></h3>
+            <?php endif; ?>
+            <div class="accessories-product-list block-1">
+                <?php foreach($_products1 as $_product): ?>
+                <div class="product-x">
+                    <div class="product-image">
+                        <a href="<?php echo $_product->getProductUrl(); ?>"><img class="porto-lazyload"
+                                data-src="<?php echo $block->getImage($_product, 'product_base_image')->getImageUrl() ?>" /></a>
+                    </div>
+                    <div class="product-xs">
+                        <h4 class="product-name"><a
+                                href="<?php echo $_product->getProductUrl(); ?>"><?php echo $_product->getName(); ?></a>
+                        </h4>
+                        <div class="prices-container">
+                            <span class="price_final">
+                                <?php echo $block->getCurrencyCode().' '. $_product->getFinalPrice(); ?>
+                            </span>
+                        </div>
+                    </div>
+                    <?php $postParams = $listBlock->getAddToCartPostParams($_product); ?>
+                    <form data-role="tocart-form" action="<?php echo $postParams['action']; ?>" method="post">
+                        <input type="hidden" name="product" value="<?php echo $postParams['data']['product']; ?>">
+                        <input type="hidden" name="<?php echo Action::PARAM_NAME_URL_ENCODED; ?>"
+                            value="<?php echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                        <?php echo $block->getBlockHtml('formkey')?>
+                        <button type="submit" title="<?php echo $block->escapeHtml(__('Add')); ?>"
+                            class="action tocart primary">
+                            <span><?php echo __('Add') ?></span>
+                        </button>
+                    </form>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+        <?php endif; ?>
+        <?php if($_products2->count()): ?>
+        <section class="second-block col-sm-4">
+            <?php if(!empty($accessories['title_2'])): ?>
+            <h3><?php echo $accessories['title_2']; ?></h3>
+            <?php endif; ?>
+            <div class="accessories-product-list block-2">
+                <?php foreach($_products2 as $_product): ?>
+                <div class="product-x">
+                    <div class="product-image">
+                        <a href="<?php echo $_product->getProductUrl(); ?>"><img class="porto-lazyload"
+                                data-src="<?php echo $block->getImage($_product, 'product_base_image')->getImageUrl() ?>" /></a>
+                    </div>
+                    <div class="product-xs">
+                        <h4 class="product-name"><a
+                                href="<?php echo $_product->getProductUrl(); ?>"><?php echo $_product->getName(); ?></a>
+                        </h4>
+                        <div class="prices-container">
+                            <span class="price_final">
+                                <?php echo $block->getCurrencyCode().' '. $_product->getFinalPrice(); ?>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="button" onclick="window.location='<?php echo $this->addToCartUrl($_product); ?>'"
+                        class="action primary tocart" value="Add To Cart">Add</button>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+        <?php endif; ?>
+        <?php if($_products3->count()): ?>
+        <section class="third-block col-sm-4">
+            <?php if(!empty($accessories['title_3'])): ?>
+            <h3><?php echo $accessories['title_3']; ?></h3>
+            <?php endif; ?>
+            <div class="accessories-product-list block-3">
+                <?php foreach($_products3 as $_product): ?>
+                <div class="product-x">
+                    <div class="product-image">
+                        <a href="<?php echo $_product->getProductUrl(); ?>"><img class="porto-lazyload"
+                                data-src="<?php echo $block->getImage($_product, 'product_base_image')->getImageUrl() ?>" /></a>
+                    </div>
+                    <div class="product-xs">
+                        <h4 class="product-name"><a
+                                href="<?php echo $_product->getProductUrl(); ?>"><?php echo $_product->getName(); ?></a>
+                        </h4>
+                        <div class="prices-container">
+                            <span class="price_final">
+                                <?php echo $block->getCurrencyCode().' '. $_product->getFinalPrice(); ?>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="button" onclick="window.location='<?php echo $this->addToCartUrl($_product); ?>'"
+                        class="action primary tocart" value="Add To Cart">Add</button>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endif; ?>
+<?php endif; ?>
