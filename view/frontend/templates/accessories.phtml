@@ -1,6 +1,6 @@
 <?php
 use Magento\Framework\App\Action\Action;
-    $accessories = $this->getAllAccessories();
+    $accessories = $this->getAllAccessories(true);
     $listBlock = $this->getProductListBlock();
 	if($accessories):
 		$accessories = $accessories->getData();
